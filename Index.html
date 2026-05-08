@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оплата через приложение</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 400px;
+            margin: 0 auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #555;
+            font-weight: bold;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        button {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        .status {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: #f0f0f0;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .error {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        
+        .success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💳 Оплата через приложение</h1>
+        
+        <div class="input-group">
+            <label for="amount">Введите сумму (₽):</label>
+            <input type="number" id="amount" placeholder="Например: 1000" step="100" min="1">
+        </div>
+        
+        <button onclick="sendAmount()">✅ Выполнить</button>
+        
+        <div id="status" class="status">
+            Введите сумму и нажмите "Выполнить"
+        </div>
+    </div>
+
+    <script>
+        function sendAmount() {
+            const amountInput = document.getElementById('amount');
+            const amount = amountInput.value;
+            const statusDiv = document.getElementById('status');
+            
+            // Проверка на пустое поле
+            if (!amount || amount <= 0) {
+                statusDiv.innerHTML = '❌ Пожалуйста, введите корректную сумму!';
+                statusDiv.className = 'status error';
+                return;
+            }
+            
+            // Формируем deep link с суммой
+            const appUrl = `myapp://payment?amount=${amount}`;
+            
+            statusDiv.innerHTML = `⏳ Отправка суммы ${amount} ₽ в приложение...`;
+            statusDiv.className = 'status';
+            
+            // Пытаемся открыть приложение
+            window.location.href = appUrl;
+            
+            setTimeout(() => {
+                statusDiv.innerHTML = `✅ Сумма ${amount} ₽ отправлена! Приложение должно открыться.`;
+                statusDiv.className = 'status success';
+            }, 500);
+        }
+        
+        // Добавляем возможность нажатия Enter
+        document.getElementById('amount').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                sendAmount();
+            }
+        });
+    </script>
+</body>
+</html>
