@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управление приложением</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        button {
+            padding: 20px 40px;
+            font-size: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #status {
+            margin-top: 30px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Управление Android приложением</h1>
+    
+    <button onclick="clickAppButton()">
+        🔘 Нажать кнопку в приложении
+    </button>
+    
+    <button onclick="openApp()">
+        📱 Открыть приложение
+    </button>
+    
+    <div id="status"></div>
+
+    <script>
+        function clickAppButton() {
+            const appUrl = "myapp://click";
+            
+            document.getElementById('status').innerHTML = 
+                '⏳ Отправляю команду в приложение...';
+            
+            // Отправляем команду
+            window.location.href = appUrl;
+            
+            setTimeout(() => {
+                document.getElementById('status').innerHTML = 
+                    '✅ Команда отправлена! Если приложение не открылось, нажмите "Открыть приложение"';
+            }, 500);
+        }
+        
+        function openApp() {
+            const appUrl = "myapp://open";
+            window.location.href = appUrl;
+            
+            document.getElementById('status').innerHTML = 
+                '📱 Открываю приложение...';
+        }
+    </script>
+</body>
+</html>
